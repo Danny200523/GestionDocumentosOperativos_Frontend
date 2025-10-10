@@ -1,0 +1,1 @@
+// manejo sesion global <guardar token, logout, etc>
