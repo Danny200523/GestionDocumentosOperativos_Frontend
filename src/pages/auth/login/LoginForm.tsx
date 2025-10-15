@@ -26,7 +26,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 ">
       <div className="relative">
         <RiMailLine className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
         <input

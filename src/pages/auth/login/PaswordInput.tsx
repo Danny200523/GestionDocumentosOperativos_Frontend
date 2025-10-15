@@ -12,7 +12,7 @@ const PasswordInput = ({ value, onChange, placeholder = "Contraseña" }: Passwor
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <RiLockLine className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
       <input
         type={showPassword ? "text" : "password"}

@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import AuthForm from "../AuthForm";
 
+
 const Register = () => {
   const handleRegister = (data: Record<string, string>) => {
     console.log("Usuario registrado:", data);
