@@ -1,9 +1,9 @@
-import { Home, FileText, Search, Plus, User, LogOut, Menu, X } from "lucide-react";
+import { Home, FileText, Plus, User, LogOut, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export const Sidebar = () => {
-    const [open, setOpen] = useState(false);
+export default function SidebarProfile() {
+  const [open, setOpen] = useState(false);
     const [modalOpen, SetModalOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ export const Sidebar = () => {
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/Dasboard" >  <Home size={20} /> <span>Dasboard</span></Link>
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/DocumentsTables" ><FileText size={20} /><span>Documentos</span></Link>
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="#" ><Plus size={20} /><span>Crear</span></Link>
-                        <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/Profile" ><User size={20} /><span>Perfil</span></Link>
+                        <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="#" ><User size={20} /><span>Perfil</span></Link>
                         <button className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" onClick={() => SetModalOpen(true)}><LogOut size={20} /><span>Cerrar sesión</span></button>
                     </nav>
                 </div>

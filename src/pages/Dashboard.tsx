@@ -1,7 +1,8 @@
-import Cards from "./Cards";
-import DocumentsTable from "./DocumentsTables";
-import Header from "./Header";
-import { Sidebar } from "./Sidebar";
+import Cards from "../components/Dashboard/Cards";
+import DocumentsTable from "../components/Dashboard/DocumentsTables";
+import Header from "../components/Dashboard/Header";
+import { Sidebar } from "../components/Dashboard/Sidebar";
+
 
 
 const Dashboard = () => {
