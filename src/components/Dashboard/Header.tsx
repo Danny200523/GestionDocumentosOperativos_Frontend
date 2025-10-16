@@ -2,8 +2,15 @@ import { RiSearchLine, RiNotification3Line } from "react-icons/ri";
 import { getCurrentUser } from "../../services/authService";
 import { useEffect, useState } from "react";
 
+interface CurrentUser {
+    email: string;
+    name?: string;
+    role: string;
+    department_id: number;
+}
+
 const Header = () => {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<CurrentUser | null>(null);
 
     useEffect(() => {
         getCurrentUser()
@@ -13,7 +20,7 @@ const Header = () => {
     return (
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6  gap-4  md:gap-10 ">
             <div>
-                <h1 className="text-2xl md:text-4xl font-semibold text-sky-400">Bienvenido {user ? user.name : "Cargando..."} 👋</h1>
+                <h1 className="text-2xl md:text-4xl font-semibold text-sky-400">Bienvenido {user ? (user.name ?? user.email) : "Cargando..."} 👋</h1>
             </div>
             <div className="flex items-center w-full gap-4  md:w-auto ">
                 <div className="relative flex-1 md:flex-initial">

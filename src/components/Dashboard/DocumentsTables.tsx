@@ -1,17 +1,43 @@
+import { useEffect, useState } from "react";
+
+interface DocumentItem {
+  id: number;
+  filename: string;
+  date: string;
+  status: string;
+}
+
 const DocumentsTable = () => {
-    const docs = [
-      { name: "Reporte de ventas", date: "09/01/2022", status: "Aprobado" },
-      { name: "Plan de negocios", date: "13/01/2022", status: "Rechazado" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Pendiente" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Rechazado" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Pendiente" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Aprobado" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Pendiente" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Rechazado" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Aprobado" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Pendiente" },
-      { name: "Manual de usuario", date: "10/01/2022", status: "Aprobado" },
-    ];
+  const [docs, setDocs] = useState<DocumentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const token = localStorage.getItem("token"); // si usas JWT
+        const res = await fetch("http://localhost:8000/documents/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Error al cargar los documentos");
+        }
+
+        const data: DocumentItem[] = await res.json();
+        setDocs(data);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Error inesperado";
+        setError(msg);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
   
     const getStatusColor = (status: string) => {
       switch (status) {
@@ -21,6 +47,9 @@ const DocumentsTable = () => {
         default: return "bg-gray-600";
       }
     };
+  
+    if (loading) return <p className="text-gray-400">Cargando documentos...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
   
     return (
       <div className="bg-[#1A193D] rounded-xl p-6 overflow-x-auto">
@@ -35,8 +64,8 @@ const DocumentsTable = () => {
           </thead>
           <tbody>
             {docs.map((doc) => (
-              <tr key={doc.name} className="border-b border-gray-700">
-                <td className="py-3 pr-2">{doc.name}</td>
+              <tr key={doc.id} className="border-b border-gray-700">
+                <td className="py-3 pr-2">{doc.filename}</td>
                 <td className="pr-2">{doc.date}</td>
                 <td>
                   <span className={`px-4 py-1 rounded-full text-sm ${getStatusColor(doc.status)}`}>
