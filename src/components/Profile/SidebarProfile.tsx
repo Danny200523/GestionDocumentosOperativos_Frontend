@@ -30,7 +30,7 @@ export default function SidebarProfile() {
                 ${open ? "translate-x-0" : "-translate-x-[105%]"} lg:translate-x-0`}>
 
                 <div className="pl-6 pt-6">
-                    <h1 className="text-4xl flex flex-row gap-4 items-center font-bold text-sky-400 mb-10 tracking-wide"><span>Dashboard</span> </h1>
+                    <h1 className="text-4xl flex flex-row gap-4 items-center font-bold text-sky-400 mb-10 tracking-wide"><span>Profile</span> </h1>
                     <nav className="flex flex-col gap-8">
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/Dasboard" >  <Home size={20} /> <span>Dasboard</span></Link>
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/DocumentsTables" ><FileText size={20} /><span>Documentos</span></Link>

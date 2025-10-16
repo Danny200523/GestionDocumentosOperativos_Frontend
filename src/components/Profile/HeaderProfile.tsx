@@ -24,9 +24,9 @@ export default function HeaderProfile() {
         <AvatarInitials name={user?.name ?? "NA"} />
         <div className="flex flex-col gap-8">
           <h1 className="text-3xl md:text-5xl font-semibold text-white">
-            {user ? user.name ?? user.email : "Cargando..."}
+            {user ? user.name ?? user.email : "Daniel Guerrero"}
           </h1>
-          <h3 className="text-left text-2xl">{user ? user.role : "Cargando..."}</h3>
+          <h3 className="text-left text-2xl">{user ? user.role : "Admin"}</h3>
         </div>
         <div className="flex items-center w-full gap-4  md:w-auto ">
           <div className="relative flex-1 md:flex-initial"></div>
@@ -34,14 +34,14 @@ export default function HeaderProfile() {
       </header>
       <hr className="opacity-20" />
       <br />
-      <div className="flex flex-row justify-center content-center align-middle items-center gap-30 p-4">
+      <div className="flex md:flex-row justify-center content-center align-middle items-center gap-20 p-4 sm:flex-col">
         <div className="flex flex-col justify-center items-center align-middle content-center gap-4">
           <HiOutlineMail className="text-5xl" />
-          <h3>[{user ? user.email : "Cargando..."}]</h3>
+          <h3>{user ? user.email : "daniel.developer.js@gmail.com"}</h3>
         </div>
         <div className="flex flex-col justify-center items-center align-middle content-center gap-4">
           <HiOfficeBuilding className="text-5xl" />
-          <h3>[{user ? user.department_id : "Cargando..."}]</h3>
+          <h3>{user ? user.department_id : "25"}</h3>
         </div>
       </div>
     </div>
