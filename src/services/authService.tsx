@@ -1,8 +1,12 @@
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
-/**
- * Inicia sesión y obtiene el token JWT.
- */
+export interface DocumentItem {
+  id: number;
+  filename: string;
+  date: string;
+  status: string;
+}
+
 export async function login({ email, password }: { email: string; password: string }) {
   const params = new URLSearchParams();
   params.append("username", email);
@@ -49,19 +53,24 @@ export async function getCurrentUser() {
   return await res.json();
 }
 
-export async function getDocuments() {
+export async function getDocuments(): Promise<DocumentItem[]> {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("No hay token disponible");
 
-  const res = await fetch(`${API_BASE}/upload/documents`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const res = await fetch(`${API_BASE}/documents/`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   if (!res.ok) {
-    throw new Error("Error al obtener los documentos");
+    let detail = "Error al cargar los documentos";
+    try {
+      const data = await res.json();
+      if (data && typeof data === "object" && "detail" in data) {
+        detail = (data as { detail?: string }).detail || detail;
+      }
+    } catch {}
+    throw new Error(detail);
   }
 
-  return await res.json();
+  return res.json();
 }

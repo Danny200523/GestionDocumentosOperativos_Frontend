@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getDocuments } from "../../services/authService";
 
 interface DocumentItem {
   id: number;
@@ -7,7 +8,11 @@ interface DocumentItem {
   status: string;
 }
 
-const DocumentsTable = () => {
+interface DocumentsTableProps {
+  searchTerm?: string;
+}
+
+const DocumentsTable = ({ searchTerm }: DocumentsTableProps) => {
   const [docs, setDocs] = useState<DocumentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,18 +20,7 @@ const DocumentsTable = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const token = localStorage.getItem("token"); // si usas JWT
-        const res = await fetch("http://localhost:8000/documents/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error("Error al cargar los documentos");
-        }
-
-        const data: DocumentItem[] = await res.json();
+        const data = await getDocuments();
         setDocs(data);
       } catch (err) {
         const msg = err instanceof Error ? err.message : "Error inesperado";
@@ -47,13 +41,17 @@ const DocumentsTable = () => {
         default: return "bg-gray-600";
       }
     };
+
+    const term = (searchTerm || "").toLowerCase();
+    const filteredDocs = docs.filter((doc) =>
+      doc.filename.toLowerCase().includes(term)
+    );
   
     if (loading) return <p className="text-gray-400">Cargando documentos...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
   
     return (
       <div className="bg-[#1A193D] rounded-xl p-6 overflow-x-auto">
-        <h2 className="text-xl font-semibold mb-4 text-sky-400">Documentos</h2>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="text-gray-400 border-b border-gray-700">
@@ -63,17 +61,31 @@ const DocumentsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {docs.map((doc) => (
+            {filteredDocs.map((doc) => (
               <tr key={doc.id} className="border-b border-gray-700">
                 <td className="py-3 pr-2">{doc.filename}</td>
                 <td className="pr-2">{doc.date}</td>
                 <td>
-                  <span className={`px-4 py-1 rounded-full text-sm ${getStatusColor(doc.status)}`}>
+                  <span
+                    className={`px-4 py-1 rounded-full text-sm ${getStatusColor(
+                      doc.status
+                    )}`}
+                  >
                     {doc.status}
                   </span>
                 </td>
               </tr>
             ))}
+            {filteredDocs.length === 0 && (
+              <tr>
+                <td
+                  colSpan={3}
+                  className="text-center text-gray-400 py-4 italic"
+                >
+                  No se encontraron documentos
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

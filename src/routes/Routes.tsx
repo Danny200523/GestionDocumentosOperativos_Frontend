@@ -5,8 +5,8 @@ import  Register  from '../pages/auth/register/Register';
 import ForgetPassword from '../pages/auth/ForgetPassword';
 import ChangePassword from '../pages/auth/ChangePassword';
 import Error from '../pages/404';
-import Dashboard from '../components/Dashboard/Dashboard';
 import DocumentsTables from '../components/Document/DocumentsTable';
+import Dashboard from '../pages/Dashboard';
 
 
 

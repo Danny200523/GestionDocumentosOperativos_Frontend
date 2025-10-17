@@ -1,4 +1,4 @@
-import { RiSearchLine, RiNotification3Line } from "react-icons/ri";
+import { RiSearchLine } from "react-icons/ri";
 import { getCurrentUser } from "../../services/authService";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,11 @@ interface CurrentUser {
     department_id: number;
 }
 
-const Header = () => {
+interface HeaderProps {
+    onSearch: (value: string) => void;
+  }
+
+const Header = ({ onSearch }: HeaderProps) => {
     const [user, setUser] = useState<CurrentUser | null>(null);
 
     useEffect(() => {
@@ -28,10 +32,11 @@ const Header = () => {
                     <input
                         type="text"
                         placeholder="Buscar documento..."
-                        className="w-full bg-gray-900 text-gray-200 pl-16 pr-9 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 placeholder-white"
+                        className="w-full bg-gray-900 text-gray-200 pl-10 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 placeholder-white"
+                        onChange={(e) => onSearch(e.target.value)}
                     />
                 </div>
-                <RiNotification3Line className="text-2xl cursor-pointer text-white hover:text-sky-400" />
+                
             </div>
         </header>
     );

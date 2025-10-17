@@ -1,4 +1,4 @@
-import { Home, FileText, Search, Plus, User, LogOut, Menu, X } from "lucide-react";
+import { Home, FileText, Plus, User, LogOut, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 

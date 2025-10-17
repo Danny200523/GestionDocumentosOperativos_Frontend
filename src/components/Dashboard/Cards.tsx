@@ -1,24 +1,34 @@
+import { useEffect, useState } from "react";
+import { getDocuments } from "../../services/authService";
+
 const Cards = () => {
-    const data = [
-      { title: "Documentos", value: 74 },
-      { title: "Aprobados", value: 231 },
-      { title: "Rechazados", value: 102 },
-      { title: "Pendientes", value: 11 },
-    ];
+  const [totalDocs, setTotalDocs] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
   
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-4 gap-4 md:gap-6 my-8">
-        {data.map((item) => (
-          <div
-            key={item.title}
-            className="bg-[#1A193D] p-6 rounded-xl shadow-md hover:shadow-sky-500/20 transition"
-          >
-            <h3 className="text-sm text-gray-400">{item.title}</h3>
-            <p className="text-3xl font-bold text-sky-400">{item.value}</p>
-          </div>
-        ))}
+  useEffect(() => {
+    async function loadDocuments() {
+      try {
+        const data = await getDocuments();
+        setTotalDocs(data.length); 
+      } catch (error) {
+        console.error("Error al obtener documentos:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadDocuments();
+  }, []);
+  return (
+    <div className="w-full my-8 text-center">
+      <div className="bg-[#1A193D] p-6 rounded-xl shadow-md hover:shadow-sky-500/20 transition">
+        <h3 className="text-sm text-gray-400">Documentos</h3>
+        <p className="text-3xl font-bold text-sky-400">
+          {loading ? "..." : totalDocs ?? 0}
+        </p>
       </div>
-    );
-  };
-  
-  export default Cards;
+    </div>
+  );
+};
+
+export default Cards;
