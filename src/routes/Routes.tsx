@@ -22,14 +22,14 @@ export const AppRoutes = () => {
         <Route path='restablecer-password/:token' element={<ChangePassword />} />
       </Route>
     
-      <Route element={<PrivateRoute />}>
+      
       <Route path='/' element={<Authlayout />}>
         <Route path='Dasboard' element={<Dashboard />} />
         <Route path='DocumentsTables' element={<DocumentsTables />} />
         <Route path='upload' element={<UploadDocumentPage />} />
         <Route path='Profile' element={<Profile/>} />
         </Route>
-      </Route>
+      
     
       <Route path='*' element={<Error />} />
     </Routes>

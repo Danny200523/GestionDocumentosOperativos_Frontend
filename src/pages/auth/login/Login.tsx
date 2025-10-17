@@ -5,7 +5,7 @@ import { login } from "../../../services/authService";
 const Login = () => {
     const handleLogin = async (data: Record<string, string>) => {
       try {
-        const { access_token } = await login({ email: data.email, password: data.password });
+        const { access_token } = await login({ email: data.email, password: data.password});
         localStorage.setItem("token", access_token);
         toast.success("Inicio de sesión exitoso");
         window.location.href = "/Dasboard";
