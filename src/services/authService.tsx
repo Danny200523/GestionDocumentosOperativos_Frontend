@@ -103,3 +103,102 @@ export async function uploadDocument(file: File) {
 
   return await res.json();
 }
+
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  id_department: number;
+}
+
+export async function registerUser(payload: RegisterPayload) {
+  const res = await fetch(`${API_BASE}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    let detail = "Error al registrar usuario";
+    try {
+      const data = await res.json();
+      if (data && typeof data === "object" && "detail" in data) {
+        detail = (data as { detail?: string }).detail || detail;
+      }
+    } catch {}
+    throw new Error(detail);
+  }
+
+  return await res.json();
+}
+
+export interface Department {
+  id: number;
+  name: string;
+}
+
+export async function getDepartments(): Promise<Department[]> {
+  const explicit = (import.meta.env as any).VITE_DEPARTMENTS_URL as string | undefined;
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  const candidates = (
+    explicit ? [explicit] : [
+      `${API_BASE}/departments/departments`,
+      `${API_BASE}/departments/departments/`,
+      `${API_BASE}/departments`,
+      `${API_BASE}/departments/`,
+      `${API_BASE}/Departments`,
+      `${API_BASE}/Departments/`,
+      `${API_BASE}/department`,
+      `${API_BASE}/department/`,
+      `${API_BASE}/Department`,
+      `${API_BASE}/Department/`,
+      `${API_BASE}/departaments`,
+      `${API_BASE}/departaments/`,
+      `${API_BASE}/Departaments`,
+      `${API_BASE}/Departaments/`,
+    ]
+  );
+
+  let lastError: Error | null = null;
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          Accept: "application/json",
+        },
+      });
+      if (!res.ok) {
+        let detail = `HTTP ${res.status}`;
+        try {
+          const errData = await res.json();
+          if (errData && typeof errData === "object" && "detail" in errData) {
+            detail = (errData as { detail?: string }).detail || detail;
+          }
+        } catch {}
+        lastError = new Error(detail);
+        continue;
+      }
+      const data = await res.json();
+      const list = Array.isArray(data)
+        ? data
+        : (data?.items ?? data?.results ?? data?.data ?? []);
+      const normalized: Department[] = list.map((d: any) => ({
+        id: d.id ?? d.id_department ?? d.department_id ?? d.value,
+        name: d.name ?? d.name_department ?? d.nombre ?? d.department ?? d.department_name ?? d.label,
+      })).filter((d: Department) => (typeof d.id === "number" || /^[0-9]+$/.test(String(d.id))) && !!d.name)
+        .map((d: any) => ({ id: Number(d.id), name: d.name }));
+      if (normalized.length) return normalized;
+      // If empty array returned, continue trying next candidate
+      continue;
+    } catch (e: any) {
+      lastError = e as Error;
+      continue;
+    }
+  }
+  if (lastError) throw lastError;
+  throw new Error("No se pudo resolver el endpoint de departamentos");
+}
+
