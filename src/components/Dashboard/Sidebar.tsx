@@ -40,7 +40,7 @@ export const Sidebar = () => {
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/Dasboard" >  <Home size={20} /> <span>Dasboard</span></Link>
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/DocumentsTables" ><FileText size={20} /><span>Documentos</span></Link>
                         <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/upload" ><Plus size={20} /><span>Crear</span></Link>
-                        <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="#" ><User size={20} /><span>Perfil</span></Link>
+                        <Link className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" to="/profile" ><User size={20} /><span>Perfil</span></Link>
                         <button className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition" onClick={() => SetModalOpen(true)}><LogOut size={20} /><span>Cerrar sesión</span></button>
                     </nav>
                 </div>
