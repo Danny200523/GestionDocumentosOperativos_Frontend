@@ -8,23 +8,30 @@ import Error from '../pages/404';
 import DocumentsTables from '../components/Document/DocumentsTable';
 import Dashboard from '../pages/Dashboard';
 import UploadDocumentPage from "../pages/UploadDocumentPage";
+import { PrivateRoute } from './PrivateRoute';
 
 
 
 export const AppRoutes = () => {
     return (
-        <Routes>
-        <Route path='/' element={<Authlayout />}>
-          <Route index element={<Login />} />
-          <Route path='registro' element={<Register />} />
-          <Route path='registro/olvide-password' element={<ForgetPassword />} />
-          <Route path='restablecer-password/:token' element={<ChangePassword />} />
-          <Route path='Dasboard' element={<Dashboard />} />
-          <Route path='DocumentsTables' element={<DocumentsTables />} />
-          <Route path="/upload" element={<UploadDocumentPage />} />
+      <Routes>
+      <Route path='/' element={<Authlayout />}>
+        <Route index element={<Login />} />
+        <Route path='registro' element={<Register />} />
+        <Route path='registro/olvide-password' element={<ForgetPassword />} />
+        <Route path='restablecer-password/:token' element={<ChangePassword />} />
+      </Route>
+    
+      <Route element={<PrivateRoute />}>
+      <Route path='/' element={<Authlayout />}>
+        <Route path='Dasboard' element={<Dashboard />} />
+        <Route path='DocumentsTables' element={<DocumentsTables />} />
+        <Route path='upload' element={<UploadDocumentPage />} />
         </Route>
-        <Route path='*' element={<Error />} />
-      </Routes>
+      </Route>
+    
+      <Route path='*' element={<Error />} />
+    </Routes>
     )
     
 }

@@ -8,6 +8,11 @@ export const Sidebar = () => {
     const navigate = useNavigate();
 
     const HandleLogout = () => {
+        try {
+            localStorage.removeItem("token");
+          } catch (error) {
+            console.error("Error al eliminar el token:", error);
+          }
         SetModalOpen(false);
         navigate("/");
     }
