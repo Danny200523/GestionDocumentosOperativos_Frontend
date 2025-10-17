@@ -9,7 +9,7 @@ import DocumentsTables from '../components/Document/DocumentsTable';
 import Dashboard from '../pages/Dashboard';
 import UploadDocumentPage from "../pages/UploadDocumentPage";
 import { PrivateRoute } from './PrivateRoute';
-
+import Profile from '../pages/Profile';
 
 
 export const AppRoutes = () => {
@@ -27,6 +27,7 @@ export const AppRoutes = () => {
         <Route path='Dasboard' element={<Dashboard />} />
         <Route path='DocumentsTables' element={<DocumentsTables />} />
         <Route path='upload' element={<UploadDocumentPage />} />
+        <Route path='Profile' element={<Profile/>} />
         </Route>
       </Route>
     
