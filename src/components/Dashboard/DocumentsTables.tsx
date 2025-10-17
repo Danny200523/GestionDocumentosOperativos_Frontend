@@ -52,7 +52,7 @@ const DocumentsTable = ({ searchTerm }: DocumentsTableProps) => {
   
     return (
       <div className="bg-[#1A193D] rounded-xl p-6 overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="min-w-[800px] w-full text-left border-collapse">
           <thead>
             <tr className="text-gray-400 border-b border-gray-700">
               <th className="pb-3 px-2">Nombre</th>

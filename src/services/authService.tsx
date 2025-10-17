@@ -74,3 +74,32 @@ export async function getDocuments(): Promise<DocumentItem[]> {
 
   return res.json();
 }
+
+export async function uploadDocument(file: File) {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("No hay token disponible");
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${API_BASE}/uploadfile/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    let msg = "Error al subir el documento";
+    try {
+      const data = await res.json();
+      if (data && typeof data === "object" && "detail" in data) {
+        msg = (data as { detail?: string }).detail || msg;
+      }
+    } catch {}
+    throw new Error(msg);
+  }
+
+  return await res.json();
+}

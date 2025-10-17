@@ -7,6 +7,7 @@ import ChangePassword from '../pages/auth/ChangePassword';
 import Error from '../pages/404';
 import DocumentsTables from '../components/Document/DocumentsTable';
 import Dashboard from '../pages/Dashboard';
+import UploadDocumentPage from "../pages/UploadDocumentPage";
 
 
 
@@ -20,6 +21,7 @@ export const AppRoutes = () => {
           <Route path='restablecer-password/:token' element={<ChangePassword />} />
           <Route path='Dasboard' element={<Dashboard />} />
           <Route path='DocumentsTables' element={<DocumentsTables />} />
+          <Route path="/upload" element={<UploadDocumentPage />} />
         </Route>
         <Route path='*' element={<Error />} />
       </Routes>
